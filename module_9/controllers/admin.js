@@ -49,7 +49,8 @@ exports.postEditProduct = (req, res) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  Product.findByPk(prodId)
+  req.user
+    .getProducts({ where: { id: prodId } })
     .then((product) => {
       product.title = title;
       product.description = description;

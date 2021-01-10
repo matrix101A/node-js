@@ -6,10 +6,23 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const Product = require("./models/product");
 const User = require("./models/user");
+const Cart = require("./models/cart");
+const CartItem = require("./models/cart-item");
+const Order = require("./models/order");
+const OrderItem = require("./models/order-items");
 
 Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, { through: CartItem });
+Order.belongsTo(User);
+User.hasMany(Order);
+Product.belongsToMany(Order, { through: OrderItem });
+Order.belongsToMany(Product, { through: OrderItem });
+
+Product.belongsToMany(Cart, { through: CartItem });
 
 const errorController = require("./controllers/error");
 
@@ -20,7 +33,6 @@ app.set("views", "views");
 
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
-const { getMaxListeners } = require("process");
 
 app.use((req, res, next) => {
   User.findByPk(1)
@@ -57,6 +69,8 @@ sequelize
   })
   .then((user) => {
     console.log(user);
+  })
+  .then((res) => {
     app.listen(3000);
   })
   .catch((err) => console.log(err));
