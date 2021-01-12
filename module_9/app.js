@@ -67,9 +67,7 @@ sequelize
     }
     return user;
   })
-  .then((user) => {
-    console.log(user);
-  })
+  .then((user) => {})
   .then((res) => {
     app.listen(3000);
   })
