@@ -10,6 +10,7 @@ const Cart = sequelize.define("cart", {
     allowNull: false,
     autoIncrement: true,
   },
+
 });
 
 module.exports = Cart;
