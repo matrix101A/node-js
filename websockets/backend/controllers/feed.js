@@ -6,6 +6,7 @@ const { validationResult } = require("express-validator/check");
 const Post = require("../models/post");
 const User = require("../models/user");
 const io = require("../socket");
+const { getIO } = require("../socket");
 exports.getPosts = (req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = 2;
@@ -142,6 +143,7 @@ exports.updatePost = (req, res, next) => {
       return post.save();
     })
     .then((result) => {
+      io.getIO().emit("posts", { actio: "update", pos: result });
       res.status(200).json({ message: "Post updated!", post: result });
     })
     .catch((err) => {

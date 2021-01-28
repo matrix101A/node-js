@@ -22,7 +22,6 @@ class Feed extends Component {
     postsLoading: true,
     editLoading: false,
   };
-
   componentDidMount() {
     fetch("http://localhost:8080/auth/status", {
       headers: {
@@ -53,22 +52,6 @@ class Feed extends Component {
   }
 
   addPost = (post) => {
-    this.setState((prevState) => {
-      const updatedPosts = [...prevState.posts];
-      if (prevState.postPage === 1) {
-        if (prevState.posts.length >= 2) {
-          updatedPosts.pop();
-        }
-        updatedPosts.unshift(post);
-      }
-      return {
-        posts: updatedPosts,
-        totalPosts: prevState.totalPosts + 1,
-      };
-    });
-  };
-
-  updatePost = (post) => {
     this.setState((prevState) => {
       const updatedPosts = [...prevState.posts];
       if (prevState.postPage === 1) {
